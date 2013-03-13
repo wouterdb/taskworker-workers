@@ -19,6 +19,19 @@
 		</repository>
 	</distributionManagement>
 
+	<repositories>
+		<repository>
+			<id>dnet.dreamaas</id>
+			<url>https://distrinet.cs.kuleuven.be/software/DREAMaaS/maven/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<dependency>
@@ -94,7 +107,8 @@
 
 					<archive>
 						<manifestEntries>
-							<Dependencies>org.apache.lucene, org.infinispan.query, org.hibernate.search</Dependencies>
+							<Dependencies>org.apache.lucene, org.infinispan.query,
+								org.hibernate.search</Dependencies>
 						</manifestEntries>
 					</archive>
 
