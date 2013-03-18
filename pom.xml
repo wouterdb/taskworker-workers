@@ -130,6 +130,7 @@
 					<excludes>
 						<exclude>target/**</exclude>
 						<exclude>localRepo/**</exclude>
+						<exclude>**/*.js</exclude>
 					</excludes>
 				</configuration>
 				<executions>
