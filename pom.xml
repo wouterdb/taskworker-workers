@@ -107,7 +107,7 @@
 
 					<archive>
 						<manifestEntries>
-							<Dependencies>org.apache.lucene, org.infinispan.query,org.hibernate.search</Dependencies>
+							<Dependencies>org.apache.lucene, org.infinispan.query,org.hibernate.search,org.jboss.common-core</Dependencies>
 						</manifestEntries>
 					</archive>
  
