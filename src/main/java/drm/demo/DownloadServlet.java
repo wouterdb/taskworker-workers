@@ -65,7 +65,7 @@ public class DownloadServlet extends HttpServlet {
 			outStream.write(zipFile, 0, zipFile.length);
 			outStream.close();
 		} else {
-			response.sendRedirect("/invoices.jsp?id=" + id);
+			response.sendRedirect("/workflow.jsp?id=" + id);
 		}
 	}
 
