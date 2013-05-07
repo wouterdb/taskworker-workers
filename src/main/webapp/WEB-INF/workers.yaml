@@ -1,13 +1,13 @@
 ---
 workers:
-    - {blob-to-cache: drm.taskworker.workers.BlobWorker}
-    - {csv-to-task: drm.taskworker.workers.CSVtoTaskWorker}
-    - {template-to-xml: drm.taskworker.workers.TemplateWorker}
-    - {xsl-fo-render: drm.taskworker.workers.XslFoRenderWorker}
-    - {zip-files: drm.taskworker.workers.ZipWorker}
-    - {extract-urls: drm.taskworker.workers.ExtractUrlWorker}
-    - {url-fetch: drm.taskworker.workers.UrlFetchWorker}
-    - {join: drm.taskworker.workers.JoinWorker}
+    - {name: blob-to-cache, class: drm.taskworker.workers.BlobWorker, threads: 2}
+    - {name: csv-to-task, class: drm.taskworker.workers.CSVtoTaskWorker, threads: 2}
+    - {name: template-to-xml, class: drm.taskworker.workers.TemplateWorker, threads: 2}
+    - {name: xsl-fo-render, class: drm.taskworker.workers.XslFoRenderWorker, threads: 2}
+    - {name: zip-files, class: drm.taskworker.workers.ZipWorker, threads: 2}
+    - {name: extract-urls, class: drm.taskworker.workers.ExtractUrlWorker, threads: 2}
+    - {name: url-fetch, class: drm.taskworker.workers.UrlFetchWorker, threads: 2}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2}
 
 workflows:
     invoices:
