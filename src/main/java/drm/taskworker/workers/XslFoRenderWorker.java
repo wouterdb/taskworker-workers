@@ -22,7 +22,6 @@ package drm.taskworker.workers;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.StringReader;
-import java.util.UUID;
 
 import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
@@ -35,9 +34,6 @@ import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-
 import drm.taskworker.Worker;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
@@ -48,7 +44,6 @@ import drm.taskworker.tasks.TaskResult;
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
 public class XslFoRenderWorker extends Worker {
-	private MemcacheService cacheService = MemcacheServiceFactory.getMemcacheService();
 
 	public XslFoRenderWorker(String workerName) {
 		super(workerName);
@@ -57,11 +52,11 @@ public class XslFoRenderWorker extends Worker {
 	@Override
 	public TaskResult work(Task task) {
 		TaskResult result = new TaskResult();
-		if (!task.hasParam("arg0") || !cacheService.contains(task.getParam("arg0"))) {
+		if (!task.hasParam("arg0")) {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 
-		String invoice_source = (String)cacheService.get((String) task.getParam("arg0"));
+		String invoice_source = (String) task.getParam("arg0");
 
 		try {
 			TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -90,11 +85,8 @@ public class XslFoRenderWorker extends Worker {
 			}
 
 			// store the fileData
-			String cacheKey = UUID.randomUUID().toString();
-			this.cacheService.put(cacheKey, boas.toByteArray());
-
 			Task newTask = new Task(task, this.getNextWorker());
-			newTask.addParam("arg0", cacheKey);
+			newTask.addParam("arg0", boas.toByteArray());
 			result.addNextTask(newTask);
 			result.setResult(TaskResult.Result.SUCCESS);
 		} catch (Exception e) {

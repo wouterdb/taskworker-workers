@@ -38,12 +38,16 @@
 			<groupId>taskworker</groupId>
 			<artifactId>core</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.appengine</groupId>
-			<artifactId>appengine-api-1.0-sdk</artifactId>
-			<version>${appengine.target.version}</version>
-			<scope>provided</scope>
+			<exclusions>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jetty</artifactId>
+					<groupId>org.mortbay.jetty</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- deps used by the workers -->
@@ -69,12 +73,12 @@
 			<version>1.7.2</version>
 		</dependency>
 
-		<dependency>
-			<!-- need this newer version, instead of the one used by astyanax -->
-			<groupId>org.jboss.spec.javax.servlet</groupId>
-			<artifactId>jboss-servlet-api_3.0_spec</artifactId>
-			<version>1.0.2.Final</version>
-		</dependency>
+	   <dependency>
+	        <groupId>org.apache.tomcat</groupId>
+	        <artifactId>tomcat-servlet-api</artifactId>
+	        <version>7.0.21</version>
+	        <scope>provided</scope>
+	    </dependency>
 	</dependencies>
 
 	<build>
@@ -113,12 +117,6 @@
  
 				</configuration>
 
-			</plugin>
-
-			<plugin>
-				<groupId>com.google.appengine</groupId>
-				<artifactId>appengine-maven-plugin</artifactId>
-				<version>${appengine.target.version}</version>
 			</plugin>
 
 			<plugin>

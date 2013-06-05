@@ -25,9 +25,6 @@ import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-
 import drm.taskworker.Worker;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
@@ -39,8 +36,6 @@ import drm.taskworker.tasks.TaskResult;
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
 public class CSVtoTaskWorker extends Worker {
-	private MemcacheService cacheService = MemcacheServiceFactory.getMemcacheService();
-
 	public CSVtoTaskWorker(String workerName) {
 		super(workerName);
 	}
@@ -52,7 +47,7 @@ public class CSVtoTaskWorker extends Worker {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 		
-		String csv_data = (String)cacheService.get(task.getParam("arg0"));
+		String csv_data = (String)task.getParam("arg0");
 		
 		// read in the csv
 		try {

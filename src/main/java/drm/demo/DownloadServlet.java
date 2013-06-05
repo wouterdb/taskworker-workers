@@ -27,15 +27,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
 
 /**
  * Servlet implementation class DownloadServlet
  */
 public class DownloadServlet extends HttpServlet {
-	private MemcacheService memcacheService = MemcacheServiceFactory.getMemcacheService();
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */

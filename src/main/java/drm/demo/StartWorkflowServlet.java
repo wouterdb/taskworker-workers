@@ -20,19 +20,19 @@
 package drm.demo;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import org.apache.commons.io.IOUtils;
 
 import drm.taskworker.Job;
 import drm.taskworker.Service;
@@ -47,10 +47,8 @@ import drm.taskworker.tasks.WorkflowInstance;
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
 @WebServlet("/start")
+@MultipartConfig
 public class StartWorkflowServlet extends HttpServlet {
-	private BlobstoreService blobstoreService = BlobstoreServiceFactory
-			.getBlobstoreService();
-
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -66,8 +64,6 @@ public class StartWorkflowServlet extends HttpServlet {
 		return workflowNames;
 	}
 	
-
-	
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -80,8 +76,6 @@ public class StartWorkflowServlet extends HttpServlet {
 		request.getRequestDispatcher("/start.jsp").forward(request, response);
 	}
 	
-	
-	
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
@@ -89,19 +83,26 @@ public class StartWorkflowServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Map<String, List<BlobKey>> blobKeys = 
-				blobstoreService.getUploads(request);
 		
 		Object data = null;
 		String textField = request.getParameter("text");
-		if (blobKeys.size() == 1 && blobKeys.containsKey("file")) {
-			List<BlobKey> keys = blobKeys.get("file");
-			data = keys.get(0);
-		} else if (textField != null && textField.length() > 0) {
+		
+	    Part filePart = request.getPart("file"); // Retrieves <input type="file" name="file">
+
+		if (filePart != null) {
+		    InputStream filecontent = filePart.getInputStream();
+
+		    StringWriter writer = new StringWriter();
+		    IOUtils.copy(filecontent, writer, "utf-8");
+		    data = writer.toString();
+		} 
+		else if (textField != null && textField.length() > 0) {
 			data = request.getParameter("text");
-		} else {
+		} 
+		else {
 			request.setAttribute("error", "Either file or text should be provided.");
 		}
+		
 		if (data != null) {
 			// get the delay
 			int delay = Integer.valueOf(request.getParameter("date"));
