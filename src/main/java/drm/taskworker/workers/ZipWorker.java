@@ -79,7 +79,7 @@ public class ZipWorker extends Worker {
 			byte[] zipData = boas.toByteArray();
 			boas.close();
 			
-			Task newTask = new Task(task, this.getNextWorker());
+			Task newTask = new Task(task, this.getNextWorker(task.getWorkflowId()));
 			newTask.addParam("arg0", zipData);
 			result.addNextTask(newTask);
 		} catch (FileNotFoundException e) {

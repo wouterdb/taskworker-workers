@@ -85,7 +85,7 @@ public class XslFoRenderWorker extends Worker {
 			}
 
 			// store the fileData
-			Task newTask = new Task(task, this.getNextWorker());
+			Task newTask = new Task(task, this.getNextWorker(task.getWorkflowId()));
 			newTask.addParam("arg0", boas.toByteArray());
 			result.addNextTask(newTask);
 			result.setResult(TaskResult.Result.SUCCESS);
