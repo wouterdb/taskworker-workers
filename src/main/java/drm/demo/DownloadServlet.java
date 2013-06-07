@@ -47,22 +47,22 @@ public class DownloadServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		String id = request.getParameter("id");
 
-		if (memcacheService.contains(id)) {
-			byte[] zipFile = (byte[]) memcacheService.get(id);
-
-			// sets response content type
-			response.setContentType("application/zip");
-			response.setContentLength(zipFile.length);
-
-			// sets HTTP header
-			response.setHeader("Content-Disposition", "attachment; filename=\"invoices.zip\"");
-
-			ServletOutputStream outStream = response.getOutputStream();
-			outStream.write(zipFile, 0, zipFile.length);
-			outStream.close();
-		} else {
-			response.sendRedirect("/workflow.jsp?id=" + id);
-		}
+//		if (memcacheService.contains(id)) {
+//			byte[] zipFile = (byte[]) memcacheService.get(id);
+//
+//			// sets response content type
+//			response.setContentType("application/zip");
+//			response.setContentLength(zipFile.length);
+//
+//			// sets HTTP header
+//			response.setHeader("Content-Disposition", "attachment; filename=\"invoices.zip\"");
+//
+//			ServletOutputStream outStream = response.getOutputStream();
+//			outStream.write(zipFile, 0, zipFile.length);
+//			outStream.close();
+//		} else {
+//			response.sendRedirect("/workflow.jsp?id=" + id);
+//		}
 	}
 
 }

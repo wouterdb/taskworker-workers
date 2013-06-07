@@ -55,10 +55,10 @@ public class ZipWorker extends Worker {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 		
-		List<String> fileKeys = (List<String>) task.getParam("arg0");
+		List<Object> data = (List<Object>) task.getParam("arg0");
 		
 		try {
-			if (fileKeys.size() == 0) {
+			if (data.size() == 0) {
 				logger.warning("empty zip file");
 			}
 			
@@ -68,9 +68,9 @@ public class ZipWorker extends Worker {
 
 			// save the files in the zip
 			int i = 0;
-			for (String fileKey : fileKeys) {
+			for (Object entry : data) {
 				out.putNextEntry(new ZipEntry(++i + ".pdf"));
-				byte[] pdfData = (byte[])this.cacheService.get(fileKey);
+				byte[] pdfData = (byte[])entry;
 				out.write(pdfData);
 			}
 			out.close();

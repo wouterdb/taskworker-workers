@@ -14,7 +14,7 @@ workflows:
             xsl-fo-render: {next: join}
             join: {next: zip-files}
         start: csv-to-task
-        end: zip-files     
+        end: zip-files 
 
 scheduler:
     class: drm.taskworker.schedule.FairShare

@@ -3,11 +3,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>taskworker</groupId>
 	<artifactId>examples</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
 
 	<properties>
-		<appengine.app.version>1</appengine.app.version>
-		<appengine.target.version>1.7.5</appengine.target.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -37,7 +35,7 @@
 		<dependency>
 			<groupId>taskworker</groupId>
 			<artifactId>core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.1.0-SNAPSHOT</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>
