@@ -17,7 +17,7 @@
     Technical Contact: bart.vanbrabant@cs.kuleuven.be
  */
 
-package drm.demo;
+package drm.taskworker.web;
 
 import java.io.IOException;
 import java.io.InputStream;

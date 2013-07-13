@@ -5,6 +5,7 @@ workers:
     - {xsl-fo-render: drm.taskworker.workers.XslFoRenderWorker}
     - {zip-files: drm.taskworker.workers.ZipWorker}
     - {join: drm.taskworker.workers.JoinWorker}
+    - {archive: drm.taskworker.workers.ArchiveWorker}
 
 workflows:
     invoices:
@@ -13,8 +14,9 @@ workflows:
             template-to-xml: {next: xsl-fo-render}
             xsl-fo-render: {next: join}
             join: {next: zip-files}
+            zip-files: {next: archive}
         start: csv-to-task
-        end: zip-files 
+        end: archive
 
 scheduler:
     class: drm.taskworker.schedule.FairShare
@@ -24,3 +26,4 @@ scheduler:
         - xsl-fo-render
         - join
         - zip-files
+        - archive

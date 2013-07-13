@@ -17,7 +17,7 @@
  *     Administrative Contact: dnet-project-office@cs.kuleuven.be
  *     Technical Contact: bart.vanbrabant@cs.kuleuven.be
  */
-package drm.demo;
+package drm.taskworker.web;
 
 
 import java.io.IOException;
