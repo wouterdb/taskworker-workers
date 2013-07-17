@@ -22,16 +22,11 @@ package drm.taskworker.workers;
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-
 import drm.taskworker.Worker;
-import drm.taskworker.tasks.EndTask;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 
@@ -42,8 +37,6 @@ import drm.taskworker.tasks.TaskResult;
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
 public class ZipWorker extends Worker {
-	private MemcacheService cacheService = MemcacheServiceFactory.getMemcacheService();
-
 	/**
 	 * Creates a new work with the name blob-to-cache
 	 */
@@ -62,10 +55,10 @@ public class ZipWorker extends Worker {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 		
-		List<String> fileKeys = (List<String>) task.getParam("arg0");
+		List<Object> data = (List<Object>) task.getParam("arg0");
 		
 		try {
-			if (fileKeys.size() == 0) {
+			if (data.size() == 0) {
 				logger.warning("empty zip file");
 			}
 			
@@ -75,13 +68,10 @@ public class ZipWorker extends Worker {
 
 			// save the files in the zip
 			int i = 0;
-			for (String fileKey : fileKeys) {
+			for (Object entry : data) {
 				out.putNextEntry(new ZipEntry(++i + ".pdf"));
-				byte[] pdfData = (byte[])this.cacheService.get(fileKey);
+				byte[] pdfData = (byte[])entry;
 				out.write(pdfData);
-				
-				// delete the file from the cache
-				this.cacheService.delete(fileKey);
 			}
 			out.close();
 			boas.flush();
@@ -89,10 +79,8 @@ public class ZipWorker extends Worker {
 			byte[] zipData = boas.toByteArray();
 			boas.close();
 			
-			this.cacheService.put("workflow-" + task.getWorkflowId(), zipData);
-			logger.info("Stored zip file in cache under workflow-" + task.getWorkflowId());
-			
-			Task newTask = new Task(task, this.getNextWorker());
+			Task newTask = new Task(task, this.getNextWorker(task.getWorkflowId()));
+			newTask.addParam("arg0", zipData);
 			result.addNextTask(newTask);
 		} catch (FileNotFoundException e) {
 			result.setResult(TaskResult.Result.EXCEPTION);

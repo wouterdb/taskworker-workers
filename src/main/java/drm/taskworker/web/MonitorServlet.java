@@ -17,19 +17,15 @@
  *     Administrative Contact: dnet-project-office@cs.kuleuven.be
  *     Technical Contact: bart.vanbrabant@cs.kuleuven.be
  */
-package drm.demo;
+package drm.taskworker.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import drm.taskworker.tasks.WorkflowInstance;
 
 /**
  * Servlet implementation class Workflow

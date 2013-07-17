@@ -19,9 +19,10 @@
 
 package drm.taskworker.workers;
 
-import java.io.BufferedReader;
+import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import drm.taskworker.Worker;
@@ -29,51 +30,52 @@ import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 
 /**
- * A worker that fetches webpages and stores them.
- *
+ * Collect all files in a workflow and zip them when an end of workflow task
+ * is received.
+ * 
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
-public class UrlFetchWorker extends Worker {
-	public UrlFetchWorker(String name) {
-		super(name);
+public class ArchiveWorker extends Worker {
+	/**
+	 * Creates a new work with the name blob-to-cache
+	 */
+	public ArchiveWorker(String workerName) {
+		super(workerName);
 	}
 
 	/**
-	 * A service that fetches urls
-	 * 
-	 * @in arg0 String The url that the worker should fetch
-	 * @out String The HTML from the webpage at arg0
+	 * Archive the result of the previous task
 	 */
-	@Override
+	@SuppressWarnings("unchecked")
 	public TaskResult work(Task task) {
+		logger.info("Archiving file");
 		TaskResult result = new TaskResult();
 		if (!task.hasParam("arg0")) {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 		
-		String link = (String)task.getParam("arg0");
 		try {
-			URL url = new URL(link);
-	        BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-	        String line = null;
-	        StringBuffer webPage = new StringBuffer();
-	
-	        while ((line = reader.readLine()) != null) {
-	        	webPage.append(line + "\n");
-	        }
-	        reader.close();
-	        
-	        Task newTask = new Task(task, this.getNextWorker());
-	        newTask.addParam("arg0", webPage.toString());
-	        
-	        result.addNextTask(newTask);
-	        result.setResult(TaskResult.Result.SUCCESS);
+			byte[] fileData = (byte[])task.getParam("arg0");
+			
+			String archiveStore = System.getProperty("dreamaas.archive.url");
+			if (archiveStore == null) {
+				archiveStore = "http://localhost:8080/download";
+			}
+			archiveStore += "?id=" + task.getWorkflowId().toString();
+			
+			URL url = new URL(archiveStore);
+			HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+			httpCon.setDoOutput(true);
+			httpCon.setRequestMethod("PUT");
+			BufferedOutputStream bos = new BufferedOutputStream(httpCon.getOutputStream());
+			bos.write(fileData);
+			bos.close();
+			httpCon.getInputStream();
 		} catch (IOException e) {
 			result.setResult(TaskResult.Result.EXCEPTION);
 			result.setException(e);
 		}
-		
-		return result;
-	}
 
+		return result.setResult(TaskResult.Result.SUCCESS);
+	}
 }
