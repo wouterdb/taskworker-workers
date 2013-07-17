@@ -1,10 +1,21 @@
 ---
 workers:
+<<<<<<< HEAD
     - {csv-to-task: drm.taskworker.workers.CSVtoTaskWorker}
     - {template-to-xml: drm.taskworker.workers.TemplateWorker}
     - {xsl-fo-render: drm.taskworker.workers.XslFoRenderWorker}
     - {zip-files: drm.taskworker.workers.ZipWorker}
     - {join: drm.taskworker.workers.JoinWorker}
+    - {archive: drm.taskworker.workers.ArchiveWorker}
+=======
+    - {name: csv-to-task, class: drm.taskworker.workers.CSVtoTaskWorker, threads: 2}
+    - {name: template-to-xml, class: drm.taskworker.workers.TemplateWorker, threads: 2}
+    - {name: xsl-fo-render, class: drm.taskworker.workers.XslFoRenderWorker, threads: 2}
+    - {name: zip-files, class: drm.taskworker.workers.ZipWorker, threads: 2}
+    - {name: extract-urls, class: drm.taskworker.workers.ExtractUrlWorker, threads: 2}
+    - {name: url-fetch, class: drm.taskworker.workers.UrlFetchWorker, threads: 2}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2}
+>>>>>>> remotes/origin/thread-config
 
 workflows:
     invoices:
@@ -13,8 +24,9 @@ workflows:
             template-to-xml: {next: xsl-fo-render}
             xsl-fo-render: {next: join}
             join: {next: zip-files}
+            zip-files: {next: archive}
         start: csv-to-task
-        end: zip-files 
+        end: archive
 
 scheduler:
     class: drm.taskworker.schedule.FairShare
@@ -24,3 +36,4 @@ scheduler:
         - xsl-fo-render
         - join
         - zip-files
+        - archive
