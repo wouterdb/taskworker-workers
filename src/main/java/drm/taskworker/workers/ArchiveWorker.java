@@ -21,7 +21,6 @@ package drm.taskworker.workers;
 
 import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -46,7 +45,6 @@ public class ArchiveWorker extends Worker {
 	/**
 	 * Archive the result of the previous task
 	 */
-	@SuppressWarnings("unchecked")
 	public TaskResult work(Task task) {
 		logger.info("Archiving file");
 		TaskResult result = new TaskResult();
@@ -61,7 +59,7 @@ public class ArchiveWorker extends Worker {
 			if (archiveStore == null) {
 				archiveStore = "http://localhost:8080/download";
 			}
-			archiveStore += "?id=" + task.getWorkflowId().toString();
+			archiveStore += "?id=" + task.getJobId().toString();
 			
 			URL url = new URL(archiveStore);
 			HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();

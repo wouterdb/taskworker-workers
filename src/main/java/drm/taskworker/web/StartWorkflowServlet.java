@@ -38,7 +38,6 @@ import drm.taskworker.Job;
 import drm.taskworker.Service;
 import drm.taskworker.config.Config;
 import drm.taskworker.tasks.Task;
-import drm.taskworker.tasks.WorkflowInstance;
 // import this here so entities are always loaded
 
 /**
@@ -46,9 +45,11 @@ import drm.taskworker.tasks.WorkflowInstance;
  * 
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
+@SuppressWarnings("serial")
 @WebServlet("/start")
 @MultipartConfig
 public class StartWorkflowServlet extends HttpServlet {
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -109,14 +110,14 @@ public class StartWorkflowServlet extends HttpServlet {
 			Date when = new Date(System.currentTimeMillis() + (delay * 1000));
 			
 			// create a workflow and save it
-			WorkflowInstance workflow = new WorkflowInstance(request.getParameter("workflow"));
-			Task task = workflow.newStartTask();
+			Job job = new Job(request.getParameter("workflow"));
+			job.setStartAfter(when);
+			Task task = job.newStartTask();
 			task.addParam("arg0", data);
 						
-			Job newJob = new Job(workflow, task, when);
-			Service.get().addJob(newJob);
+			Service.get().addJob(job);
 			
-			String id = workflow.getWorkflowId().toString();
+			String id = job.getName();
 			request.setAttribute("workflowId", id);
 			request.setAttribute("info", "Started workflow with id <a href=\"/workflow?workflowId=" + id + "\">" + id + "</a>");
 		}

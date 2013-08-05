@@ -57,7 +57,7 @@ public class CSVtoTaskWorker extends Worker {
 			
 			for (int i = 1; i < rows.size(); i++) {
 				String[] row = rows.get(i);
-				Task newTask = new Task(task, this.getNextWorker(task.getWorkflowId()));
+				Task newTask = new Task(task, this.getNextWorker(task.getJobId()));
 
 				for (int j = 0; j < row.length; j++) {
 					newTask.addParam(headers[j], row[j]);
