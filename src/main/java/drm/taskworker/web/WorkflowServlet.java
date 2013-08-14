@@ -57,24 +57,24 @@ public class WorkflowServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		Job workflow = null;
+		Job job = null;
 
-		List<Job> workflows = new ArrayList<Job>();
+		List<Job> jobs = new ArrayList<Job>();
 		for (Job wf : Job.getAll()) {
-			workflows.add(wf);
+			jobs.add(wf);
 		}
 
-		request.setAttribute("workflows", workflows);
+		request.setAttribute("jobs", jobs);
 
 		Map<String, Integer> stats = new HashMap<>();
 		Date started = new Date();
 		Date finished = new Date(0);
-		if (request.getParameter("workflowId") != null) {
+		if (request.getParameter("jobId") != null) {
 			// load the workflow
-			workflow = Job.load(UUID.fromString(request.getParameter("workflowId")));
+			job = Job.load(UUID.fromString(request.getParameter("jobId")));
 			
-			if (workflow != null) {
-				for (AbstractTask task : workflow.getHistory()) {
+			if (job != null) {
+				for (AbstractTask task : job.getHistory()) {
 					if (!stats.containsKey(task.getWorker())) {
 						stats.put(task.getWorker(), 0);
 					}
@@ -95,7 +95,7 @@ public class WorkflowServlet extends HttpServlet {
 		request.setAttribute("started", started);
 		request.setAttribute("finished", finished);
 		request.setAttribute("stats", stats);
-		request.setAttribute("workflow", workflow);
+		request.setAttribute("job", job);
 		request.getRequestDispatcher("/workflow.jsp").forward(request, response);
 	}
 }

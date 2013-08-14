@@ -26,26 +26,22 @@
 <html>
 	<head>
 	   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	   <title>Workflow list</title>
-	   
-	   <script type="text/javascript" src="js/raphael-min.js"></script>
-       <script type="text/javascript" src="js/graffle.js"></script>
-       <script type="text/javascript" src="js/graph.js"></script>
+	   <title>Job list</title>
 	</head>
 	<body>
-		<h1>Workflow list</h1>
+		<h1>Job list</h1>
         <form action="/workflow" method="GET">
-            <select name="workflowId">
-                <c:forEach var="workflow" items="${workflows}">
-				<option value="${workflow.workflowId}">${workflow.workflowId} - ${workflow.name}</option>
+            <select name="jobId">
+                <c:forEach var="j" items="${jobs}">
+				<option value="${j.jobId}">${j.jobId} - ${j.workflowName}</option>
 			    </c:forEach>
 			</select>
 			
             <input type="submit" name="submit" value="Submit">
 		</form>
 		
-		<c:if test="${not empty workflow}">
-		<h2>Workflow history for ${workflow.workflowId} - ${workflow.name}</h2>
+		<c:if test="${not empty job}">
+		<h2>Workflow history for ${job.jobId} - ${job.workflowName}</h2>
 		<p>
 		  Started at ${started }<br />
 		  Finished at ${finished }
@@ -63,7 +59,7 @@
             </c:forEach>
         </table>
         </c:if>
-        <p><a href="/download?id=${workflow.workflowId}">Download Result</a></p>
+        <p><a href="/download?id=${job.jobId}">Download Result</a></p>
         <p><a href="/index.jsp">Back to start</a></p>
 	</body>
 </html>

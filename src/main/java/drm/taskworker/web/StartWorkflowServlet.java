@@ -119,7 +119,7 @@ public class StartWorkflowServlet extends HttpServlet {
 			
 			String id = job.getName();
 			request.setAttribute("workflowId", id);
-			request.setAttribute("info", "Started workflow with id <a href=\"/workflow?workflowId=" + id + "\">" + id + "</a>");
+			request.setAttribute("info", "Started workflow with id <a href=\"/workflow?jobId=" + id + "\">" + id + "</a>");
 		}
 
 		request.setAttribute("workflows", this.getWorkflows());
