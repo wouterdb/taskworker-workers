@@ -46,6 +46,7 @@
 					<groupId>org.mortbay.jetty</groupId>
 				</exclusion>
 			</exclusions>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- deps used by the workers -->
@@ -92,32 +93,6 @@
 			</plugin>
 
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.3</version>
-				<configuration>
-					<archiveClasses>true</archiveClasses>
-					<webResources>
-						<!-- in order to interpolate version from pom into appengine-web.xml -->
-						<resource>
-							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
-							<filtering>true</filtering>
-							<targetPath>WEB-INF</targetPath>
-						</resource>
-					</webResources>
-
-
-					<archive>
-						<manifestEntries>
-							<Dependencies>org.apache.lucene, org.infinispan.query,org.hibernate.search,org.jboss.common-core</Dependencies>
-						</manifestEntries>
-					</archive>
- 
-				</configuration>
-
-			</plugin>
-			
-			<plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -128,6 +103,7 @@
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
                 </configuration>
                 <executions>
                     <execution>
@@ -171,5 +147,4 @@
 		</extensions>
 	</build>
 
-	<packaging>war</packaging>
 </project>
