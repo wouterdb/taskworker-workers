@@ -1,150 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>taskworker</groupId>
 	<artifactId>examples</artifactId>
-	<version>0.2.0-SNAPSHOT</version>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-			<id>dnetfs</id>
-			<name>Dreamaas Internal Repository</name>
-			<url>scp://dnetfs.cs.kuleuven.be/cw/dnetw3/software/DREAMaaS/maven</url>
-		</repository>
-	</distributionManagement>
 
-	<repositories>
-		<repository>
-			<id>dnet.dreamaas</id>
-			<url>https://distrinet.cs.kuleuven.be/software/DREAMaaS/maven/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-
-	<dependencies>
-
-		<dependency>
-			<groupId>taskworker</groupId>
-			<artifactId>core</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>servlet-api</artifactId>
-					<groupId>javax.servlet</groupId>
-				</exclusion>
-				<exclusion>
-					<artifactId>jetty</artifactId>
-					<groupId>org.mortbay.jetty</groupId>
-				</exclusion>
-			</exclusions>
-			<scope>provided</scope>
-		</dependency>
-
-		<!-- deps used by the workers -->
-		<dependency>
-			<groupId>org.apache.velocity</groupId>
-			<artifactId>velocity</artifactId>
-			<version>1.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.opencsv</groupId>
-			<artifactId>opencsv</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>fop</artifactId>
-			<version>1.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.7.2</version>
-		</dependency>
-
-	   <dependency>
-	        <groupId>org.apache.tomcat</groupId>
-	        <artifactId>tomcat-servlet-api</artifactId>
-	        <version>7.0.21</version>
-	        <scope>provided</scope>
-	    </dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<version>2.5.1</version>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <version>2.5.1</version>
+                <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>drm.taskworker.App</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
 			<plugin>
-				<groupId>com.mycila.maven-license-plugin</groupId>
-				<artifactId>maven-license-plugin</artifactId>
-				<version>1.10.b1</version>
+				<inherited>false</inherited>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
-					<header>header.txt</header>
-					<excludes>
-						<exclude>target/**</exclude>
-						<exclude>localRepo/**</exclude>
-						<exclude>**/*.js</exclude>
-					</excludes>
+					<descriptorRefs>
+						<descriptorRef>project</descriptorRef>
+					</descriptorRefs>
 				</configuration>
 				<executions>
 					<execution>
+						<id>make-assembly</id>
+						<phase>package</phase>
 						<goals>
-							<goal>check</goal>
+							<goal>single</goal>
 						</goals>
 					</execution>
+					
 				</executions>
 			</plugin>
+
 		</plugins>
 
-		<extensions>
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>1.0</version>
-			</extension>
-		</extensions>
-	</build>
 
+	</build>
+	<modules>
+		<module>archive</module>
+        <module>csv</module>
+        <module>fop</module>
+        <module>zip</module>
+        <module>template</module>
+	</modules>
 </project>
