@@ -51,10 +51,15 @@
 
 	</build>
 	<modules>
+        <!-- workers -->
 		<module>archive</module>
         <module>csv</module>
         <module>fop</module>
         <module>zip</module>
         <module>template</module>
+        <module>join</module>
+
+        <!-- demo workflows -->
+        <module>workflow-upnxt</module>
 	</modules>
 </project>
