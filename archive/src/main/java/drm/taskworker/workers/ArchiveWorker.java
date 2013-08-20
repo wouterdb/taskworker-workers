@@ -55,7 +55,7 @@ public class ArchiveWorker extends Worker {
 		try {
 			byte[] fileData = (byte[])task.getParam("arg0");
 			
-			String archiveStore = System.getProperty("dreamaas.archive.url");
+			String archiveStore = System.getProperty("taskworker.archive.url");
 			if (archiveStore == null) {
 				archiveStore = "http://localhost:8080/download";
 			}
