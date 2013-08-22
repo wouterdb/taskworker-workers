@@ -11,6 +11,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>dnetfs</id>
+			<name>Dreamaas Internal Repository</name>
+			<url>scp://dnetfs.cs.kuleuven.be/cw/dnetw3/software/DREAMaaS/maven</url>
+		</repository>
+	</distributionManagement>
+
 
 
 	<build>
