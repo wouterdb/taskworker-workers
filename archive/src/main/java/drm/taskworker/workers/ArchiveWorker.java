@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import drm.taskworker.Worker;
+import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 
@@ -48,13 +49,16 @@ public class ArchiveWorker extends Worker {
 	public TaskResult work(Task task) {
 		logger.info("Archiving file");
 		TaskResult result = new TaskResult();
-		if (!task.hasParam("arg0")) {
+		
+		byte[] fileData = null;
+		
+		try {
+			fileData = (byte[])task.getParam("arg0");
+		} catch (ParameterFoundException e) {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
 		
 		try {
-			byte[] fileData = (byte[])task.getParam("arg0");
-			
 			String archiveStore = System.getProperty("taskworker.archive.url");
 			if (archiveStore == null) {
 				archiveStore = "http://localhost:8080/download";

@@ -35,6 +35,7 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 
 import drm.taskworker.Worker;
+import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 
@@ -52,11 +53,13 @@ public class XslFoRenderWorker extends Worker {
 	@Override
 	public TaskResult work(Task task) {
 		TaskResult result = new TaskResult();
-		if (!task.hasParam("arg0")) {
+		String invoice_source = null;
+		
+		try {
+			invoice_source = (String) task.getParam("arg0");
+		} catch (ParameterFoundException e) {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
-
-		String invoice_source = (String) task.getParam("arg0");
 
 		try {
 			TransformerFactory tFactory = TransformerFactory.newInstance();

@@ -27,8 +27,10 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import drm.taskworker.Worker;
+import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
+import drm.taskworker.tasks.ValueRef;
 
 /**
  * Collect all files in a workflow and zip them when an end of workflow task
@@ -49,13 +51,15 @@ public class ZipWorker extends Worker {
 	 */
 	@SuppressWarnings("unchecked")
 	public TaskResult work(Task task) {
-		logger.info("Building zip file");
 		TaskResult result = new TaskResult();
-		if (!task.hasParam("arg0")) {
-			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
-		}
+		List<ValueRef> data = null;
 		
-		List<Object> data = (List<Object>) task.getParam("arg0");
+		try {
+			data = (List<ValueRef>) task.getParam("arg0");
+		} catch (ParameterFoundException e) {
+			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
+
+		}
 		
 		try {
 			if (data.size() == 0) {
@@ -68,9 +72,10 @@ public class ZipWorker extends Worker {
 
 			// save the files in the zip
 			int i = 0;
-			for (Object entry : data) {
+			for (ValueRef ref : data) {
+				
 				out.putNextEntry(new ZipEntry(++i + ".pdf"));
-				byte[] pdfData = (byte[])entry;
+				byte[] pdfData = (byte[])ref.getValue();
 				out.write(pdfData);
 			}
 			out.close();
@@ -87,6 +92,9 @@ public class ZipWorker extends Worker {
 			result.setException(e);
 		} catch (IOException e) {
 			result.setResult(TaskResult.Result.EXCEPTION);
+			result.setException(e);
+		} catch (ParameterFoundException e) {
+			result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 			result.setException(e);
 		}
 

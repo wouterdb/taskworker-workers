@@ -24,8 +24,8 @@ import java.io.StringReader;
 import java.util.List;
 
 import au.com.bytecode.opencsv.CSVReader;
-
 import drm.taskworker.Worker;
+import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 
@@ -43,11 +43,14 @@ public class CSVtoTaskWorker extends Worker {
 	@Override
 	public TaskResult work(Task task) {
 		TaskResult result = new TaskResult();
-		if (!task.hasParam("arg0")) {
+		
+		String csv_data = null;
+		try {
+			csv_data = (String)task.getParam("arg0");
+			assert(csv_data != null);
+		} catch (ParameterFoundException e) {
 			return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 		}
-		
-		String csv_data = (String)task.getParam("arg0");
 		
 		// read in the csv
 		try {

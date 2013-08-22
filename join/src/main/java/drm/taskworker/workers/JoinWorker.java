@@ -37,6 +37,7 @@ import drm.taskworker.tasks.AbstractTask;
 import drm.taskworker.tasks.EndTask;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
+import drm.taskworker.tasks.ValueRef;
 
 /**
  * A generic worker that joins a workflow by collecting all tasks of a workflow
@@ -97,11 +98,11 @@ public class JoinWorker extends Worker {
 				Task t = (Task)AbstractTask.load(task.getJobId(), c.getUUIDValue("id", null));
 				
 				parents.add(t);
-				for (String key : t.getParamNames()) {
-					if (!varMap.containsKey(key)) {
-						varMap.put(key, new ArrayList<Object>());
+				for (ValueRef ref : t.getParamRefs()) {
+					if (!varMap.containsKey(ref.getKeyName())) {
+						varMap.put(ref.getKeyName(), new ArrayList<Object>());
 					}
-					varMap.get(key).add(t.getParam(key));
+					varMap.get(ref.getKeyName()).add(ref);
 				}
 			}
 		}
