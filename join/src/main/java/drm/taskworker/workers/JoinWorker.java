@@ -19,25 +19,18 @@
 
 package drm.taskworker.workers;
 
-import static drm.taskworker.Entities.cs;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.logging.Logger;
 
-import com.netflix.astyanax.connectionpool.exceptions.ConnectionException;
-import com.netflix.astyanax.model.ColumnList;
-import com.netflix.astyanax.model.CqlResult;
-import com.netflix.astyanax.model.Row;
-
-import drm.taskworker.Entities;
+import drm.taskworker.Job;
 import drm.taskworker.Worker;
-import drm.taskworker.tasks.AbstractTask;
-import drm.taskworker.tasks.EndTask;
+import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
-import drm.taskworker.tasks.ValueRef;
 
 /**
  * A generic worker that joins a workflow by collecting all tasks of a workflow
@@ -51,7 +44,8 @@ import drm.taskworker.tasks.ValueRef;
  * @author Bart Vanbrabant <bart.vanbrabant@cs.kuleuven.be>
  */
 public class JoinWorker extends Worker {
-	
+	protected static final Logger logger = 
+			Logger.getLogger(JoinWorker.class.getCanonicalName());
 
 	/**
 	 * Creates a new work with the name blob-to-cache
@@ -63,63 +57,64 @@ public class JoinWorker extends Worker {
 	@Override
 	public TaskResult work(Task task) {
 		TaskResult result = new TaskResult();
+		
+		try {
+			// get the last join id from the queue (String)
+			String joinQueue = (String)task.getParam(Task.JOIN_PARAM);
+			if (joinQueue.length() % 37 != 0) {
+				throw new IllegalArgumentException("Invalid JOIN LIST: " + joinQueue);
+			}
+
+			UUID joinId = UUID.fromString(joinQueue.substring(joinQueue.length() - 36, joinQueue.length()));
+			joinQueue = joinQueue.substring(0, joinQueue.length() - 37);
+			
+			// decrement the join counter
+			Job.decrementJoin(task.getJobId(), joinId);
+			
+			// get its current value
+			int joinValue = Job.getJoinCount(task.getJobId(), joinId);
+			
+			// register this task as a parent of the future joined task
+			Task.saveParent(task.getJobId(), joinId, task.getId());
+			
+			// if the joinValue is zero, we need to "materialize" the join task
+			// WARNING: creating this task has to be idempotent because retrieving
+			// the join counter has a race, so two possible tasks are joining
+			if (joinValue == 0) {
+				// GO!
+				Task newTask = new Task(task.getJobId(), joinId, this.getNextWorker(task.getJobId()));
+				
+				// load all parents and build the map of parameters
+				Map<String, List<Object>> varMap = new HashMap<>();
+				
+				for (Task parentTask : newTask.getParents()) {
+					for (String paramName : parentTask.getParamNames()) {
+						if (!varMap.containsKey(paramName)) {
+							varMap.put(paramName, new ArrayList<Object>());
+						}
+						varMap.get(paramName).add(task.getParamRef(paramName));
+					}
+				}
+				
+				// put the param maps in the new task
+				for (String varName : varMap.keySet()) {
+					newTask.addParam(varName, varMap.get(varName));
+				}
+				
+				// add the new join queue
+				newTask.addParam(Task.JOIN_PARAM, joinQueue);
+				
+				// return the new task
+				result.addNextTask(newTask);
+			}
+			
+		} catch (ParameterFoundException e) {
+			result.setException(e);
+			result.setResult(TaskResult.Result.EXCEPTION);
+			return result;
+		}
+		
 		result.setResult(TaskResult.Result.SUCCESS);
 		return result;
 	}
-
-
-	/**
-	 * Handle the end of workflow token by sending it to the same next hop.
-	 */
-	public TaskResult work(EndTask task) {
-		logger.info("Joining workflow " + task.getJobId().toString());
-		TaskResult result = new TaskResult();
-
-		//Fixme: perhaps write out intermediate table
-		CqlResult<String, String> results;
-		try {
-			results = cs().prepareQuery(Entities.CF_STANDARD1)
-					.withCql("SELECT id, type FROM task WHERE job_id = ? AND worker_name = ?;")
-					.asPreparedStatement()
-					.withUUIDValue(task.getJobId())
-					.withStringValue(getName())
-					.execute().getResult();
-		} catch (ConnectionException e) {
-			throw new RuntimeException(e);
-		}
-		
-		// merge the arguments of the all tasks
-		Map<String, List<Object>> varMap = new HashMap<>();
-		List<AbstractTask> parents = new ArrayList<>();
-		
-		for (Row<String, String> row : results.getRows()) {
-			ColumnList<String> c = row.getColumns();
-			if (c.getIntegerValue("type", 0) == 0) {
-				Task t = (Task)AbstractTask.load(task.getJobId(), c.getUUIDValue("id", null));
-				
-				parents.add(t);
-				for (ValueRef ref : t.getParamRefs()) {
-					if (!varMap.containsKey(ref.getKeyName())) {
-						varMap.put(ref.getKeyName(), new ArrayList<Object>());
-					}
-					varMap.get(ref.getKeyName()).add(ref);
-				}
-			}
-		}
-		
-		// create a new task with all joined arguments
-		Task newTask = new Task(parents, this.getNextWorker(task.getJobId()));
-		
-		for (String varName : varMap.keySet()) {
-			newTask.addParam(varName, varMap.get(varName));
-		}
-		
-		result.addNextTask(newTask);
-		
-		// also create a new endTask
-		result.addNextTask(new EndTask(task, this.getNextWorker(task.getJobId())));
-
-		return result.setResult(TaskResult.Result.SUCCESS);
-	}
-	
 }

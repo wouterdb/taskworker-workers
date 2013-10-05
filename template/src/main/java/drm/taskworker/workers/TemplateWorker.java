@@ -32,7 +32,6 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import drm.taskworker.Worker;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
-import drm.taskworker.tasks.ValueRef;
 
 /**
  * A worker that renders a template
@@ -63,8 +62,8 @@ public class TemplateWorker extends Worker {
 
             VelocityContext context = new VelocityContext();
 
-            for (ValueRef ref : task.getParamRefs()) {
-				context.put(ref.getKeyName(), ref.getValue());
+            for (String name: task.getParamNames()) {
+				context.put(name, task.getParam(name));
 			}
 
             Template template = ve.getTemplate(templatePath, "UTF-8");

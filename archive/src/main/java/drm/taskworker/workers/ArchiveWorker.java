@@ -64,7 +64,7 @@ public class ArchiveWorker extends Worker {
 				archiveStore = "http://localhost:8080/download";
 			}
 			archiveStore += "?id=" + task.getJobId().toString();
-			
+			logger.info("Archiving result to " + archiveStore);
 			URL url = new URL(archiveStore);
 			HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
 			httpCon.setDoOutput(true);
@@ -73,9 +73,14 @@ public class ArchiveWorker extends Worker {
 			bos.write(fileData);
 			bos.close();
 			httpCon.getInputStream();
+			
+			Task newTask = new Task(task, this.getNextWorker(task.getJobId()));
+			result.addNextTask(newTask);
+			
 		} catch (IOException e) {
 			result.setResult(TaskResult.Result.EXCEPTION);
 			result.setException(e);
+			return result;
 		}
 
 		return result.setResult(TaskResult.Result.SUCCESS);
