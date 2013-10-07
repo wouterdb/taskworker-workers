@@ -74,11 +74,9 @@
         <module>zip</module>
         <module>template</module>
         <module>join</module>
-        <module>execute</module>
         <module>end</module>
 
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
-        <module>workflow-noesis</module>
 	</modules>
 </project>
