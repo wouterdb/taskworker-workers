@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>taskworker</groupId>
 	<artifactId>workers</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>0.4.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
@@ -23,7 +23,7 @@
 		<dependency>
 			<groupId>taskworker</groupId>
 			<artifactId>core</artifactId>
-			<version>0.3.0-SNAPSHOT</version>
+			<version>0.4.0-SNAPSHOT</version>
 
 			<scope>provided</scope>
 		</dependency>
