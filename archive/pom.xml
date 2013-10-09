@@ -12,4 +12,11 @@
 	<groupId>taskworker.workers</groupId>
 	<artifactId>archive</artifactId>
 	
+	<dependencies>
+		<dependency>
+		  <groupId>com.github.lookfirst</groupId>
+		  <artifactId>sardine</artifactId>
+		  <version>5.0.1</version>
+		</dependency>
+	</dependencies>
 </project>

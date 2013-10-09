@@ -1,12 +1,12 @@
 ---
 workers:
-    - {name: csv-to-task, class: drm.taskworker.workers.CSVtoTaskWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: template-to-xml, class: drm.taskworker.workers.TemplateWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: xsl-fo-render, class: drm.taskworker.workers.XslFoRenderWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: zip-files, class: drm.taskworker.workers.ZipWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: archive, class: drm.taskworker.workers.ArchiveWorker, threads: 2, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
-    - {name: end, class: drm.taskworker.workers.EndWorker, threads: 1, code: "target/upnxt-0.2.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: csv-to-task, class: drm.taskworker.workers.CSVtoTaskWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: template-to-xml, class: drm.taskworker.workers.TemplateWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: xsl-fo-render, class: drm.taskworker.workers.XslFoRenderWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: zip-files, class: drm.taskworker.workers.ZipWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: archive, class: drm.taskworker.workers.WebdavArchiveWorker, threads: 2, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: end, class: drm.taskworker.workers.EndWorker, threads: 1, code: "target/upnxt-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
 
 
 workflows:
@@ -20,10 +20,6 @@ workflows:
             archive: {next: end}
         start: csv-to-task
         end: end
-        timeout: {
-          default: 15,
-          xsl-fo-render: 30
-        }
 
 scheduler:
     class: drm.taskworker.schedule.FairShare

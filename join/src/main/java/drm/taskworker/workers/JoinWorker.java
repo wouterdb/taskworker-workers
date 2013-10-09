@@ -86,8 +86,10 @@ public class JoinWorker extends Worker {
 				
 				// load all parents and build the map of parameters
 				Map<String, List<Object>> varMap = new HashMap<>();
+				List<Task> parents = newTask.getParents();
+				logger.info("Joining the results of " + parents.size() + " parents");
 				
-				for (Task parentTask : newTask.getParents()) {
+				for (Task parentTask : parents) {
 					for (String paramName : parentTask.getParamNames()) {
 						if (!varMap.containsKey(paramName)) {
 							varMap.put(paramName, new ArrayList<Object>());
