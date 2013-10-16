@@ -94,7 +94,7 @@ public class JoinWorker extends Worker {
 						if (!varMap.containsKey(paramName)) {
 							varMap.put(paramName, new ArrayList<Object>());
 						}
-						varMap.get(paramName).add(task.getParamRef(paramName));
+						varMap.get(paramName).add(parentTask.getParamRef(paramName));
 					}
 				}
 				
