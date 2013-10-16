@@ -78,5 +78,6 @@
 
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
+        <module>geo</module>
 	</modules>
 </project>
