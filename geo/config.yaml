@@ -1,0 +1,23 @@
+---
+workers:
+    - {name: split, class: drm.taskworker.workers.geo.SplitWorker, threads: 1, code: "target/imageLeaf-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: archive, class: drm.taskworker.workers.geo.ArchiveWorker, threads: 2, code: "target/imageLeaf-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: fuse, class: drm.taskworker.workers.geo.FusionWorker, threads: 2, code: "target/imageLeaf-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2, code: "target/imageLeaf-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: fetch, class: drm.taskworker.workers.geo.ImageFetchWorker, threads: 2, code: "target/imageLeaf-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+   
+workflows:
+    luciad:
+        steps:
+            join: {next: fuse}
+        start: split
+        end: end
+
+scheduler:
+    class: drm.taskworker.schedule.FairShare
+    workers:
+        - split
+        - archive
+        - fuse
+        - join
+        - fetch
