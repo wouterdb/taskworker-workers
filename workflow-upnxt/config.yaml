@@ -16,10 +16,16 @@ workflows:
             template-to-xml: {next: xsl-fo-render}
             xsl-fo-render: {next: join}
             join: {next: zip-files}
-            zip-files: {next: end}
+            zip-files: {next: archive}
             archive: {next: end}
         start: csv-to-task
         end: end
+        options:
+            archive.url: http://172.16.4.12:8080/repository/default
+            archive.username: admin
+            archive.password: admin
+            archive.extension: zip
+            archive.filetype: application/zip
 
 scheduler:
     class: drm.taskworker.schedule.FairShare

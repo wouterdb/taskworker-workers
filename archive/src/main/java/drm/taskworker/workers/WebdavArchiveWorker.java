@@ -19,8 +19,6 @@
 
 package drm.taskworker.workers;
 
-import static drm.taskworker.config.Config.cfg;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -65,17 +63,18 @@ public class WebdavArchiveWorker extends Worker {
 		
 		try {
 			// WebDAV URL:
-			final String baseUrl = cfg().getProperty("taskworker.archive.url");
+			final String baseUrl = task.getJobOption("archive.url");
 			if (baseUrl == null) {
 				logger.log(Level.SEVERE, "No base url configured to upload result to.");
 				return result.setResult(TaskResult.Result.ARGUMENT_ERROR);
 			}
-			
-			Sardine sardine = SardineFactory.begin(cfg().getProperty("taskworker.archive.username", "admin"), 
-					cfg().getProperty("taskworker.archive.password", "admin"));
+			                   
+			Sardine sardine = SardineFactory.begin(task.getJobOption("archive.username"), task.getJobOption("archive.password"));
+			@SuppressWarnings("unused")
 			List<DavResource> resources = sardine.list(baseUrl);
-			
-			sardine.put(baseUrl + task.getJobId().toString(), fileData, "application/zip");
+		
+			sardine.put(baseUrl + "/" + task.getJobId().toString() + "." + task.getJobOption("archive.extension"), 
+					fileData, task.getJobOption("archive.filetype"));
 
 			Task newTask = new Task(task, this.getNextWorker(task.getJobId()));
 			result.addNextTask(newTask);
