@@ -1,0 +1,1 @@
+bin/taskworker-client  newjob -w luciad -D "33618 21970 33622 21974"

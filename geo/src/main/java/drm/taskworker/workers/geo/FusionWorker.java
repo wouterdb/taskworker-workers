@@ -77,17 +77,21 @@ public class FusionWorker extends AbstractGeoWorker {
 			
 			String joinQueue = (String) task.getParam(Task.JOIN_PARAM);
 			Task next;
-			if (joinQueue.length() == 0)
+			if (joinQueue.length() == 0){
 				next = new Task(task, "archive");
-			else
+				attachBinaryImage(next, "arg0", whole);
+			}else{
 				next = new Task(task, "join");
+				attachImage(next, whole, new Region(regs));
+			}
+				
 
-			attachImage(next, whole, new Region(regs));
+			
 			
 			tr.addNextTask(next);
 			tr.setResult(Result.SUCCESS);
 
-		} catch (ParameterFoundException e) {
+		} catch (ParameterFoundException|IOException e) {
 			tr.setException(e);
 			tr.fail();
 		} 
