@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>taskworker</groupId>
+		<artifactId>workers</artifactId>
+		<version>0.4.0-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+
+	<groupId>taskworker.workflow</groupId>
+	<artifactId>noesis</artifactId>
+
+	<dependencies>
+		<dependency>
+			<groupId>taskworker.workers</groupId>
+			<artifactId>execute</artifactId>
+			<version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>taskworker.workers</groupId>
+			<artifactId>optimus</artifactId>
+			<version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>taskworker.workers</groupId>
+			<artifactId>archive</artifactId>
+			<version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>taskworker.workers</groupId>
+			<artifactId>end</artifactId>
+			<version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>taskworker.workers</groupId>
+			<artifactId>join</artifactId>
+			<version>${project.version}</version>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>drm.taskworker.App</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<exclusion>
+						<groupId>taskworker</groupId>
+						<artifactId>workers</artifactId>
+	
+					</exclusion>
+
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

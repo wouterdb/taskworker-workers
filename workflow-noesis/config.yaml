@@ -1,0 +1,34 @@
+---
+workers:
+    - {name: execute, class: drm.taskworker.workers.ExecuteWorker, threads: 2, code: "target/noesis-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: optimus, class: drm.taskworker.workers.OptimusWorker, threads: 2, code: "target/noesis-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: archive, class: drm.taskworker.workers.WebdavArchiveWorker, threads: 1, code: "target/noesis-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 1, code: "target/noesis-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: end, class: drm.taskworker.workers.EndWorker, threads: 1, code: "target/noesis-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+        
+
+workflows:
+    simulate:
+        steps:
+            optimus: {next: archive}
+            execute: {next: join}
+            join: {next: optimus}
+            archive: {next: end}
+        start: optimus
+        end: end
+        options:
+            archive.url: http://172.16.4.12:8080/repository/default
+            archive.username: admin
+            archive.password: admin
+            archive.extension: txt
+            archive.filetype: plain/txt
+
+scheduler:
+    class: drm.taskworker.schedule.FairShare
+    workers:
+        - join
+        - archive
+        - end
+        - optimus
+        - execute
+

@@ -75,9 +75,12 @@
         <module>template</module>
         <module>join</module>
         <module>end</module>
+        <module>execute</module>
+        <module>optimus</module>
 
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
+        <module>workflow-noesis</module>
         <module>geo</module>
 	</modules>
 </project>

@@ -1,0 +1,213 @@
+Dec 05, 2013 8:17:10 PM drm.taskworker.config.Config loadConfig
+INFO: Loading configuration file config.yaml
+Dec 05, 2013 8:17:11 PM drm.taskworker.Entities setupCassandra
+INFO: Connecting to cassandra seed(s): 127.0.0.1
+log4j:WARN No appenders could be found for logger (com.netflix.astyanax.connectionpool.impl.ConnectionPoolMBeanManager).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Dec 05, 2013 8:17:12 PM drm.taskworker.WorkerRegistration start
+INFO: Starting execute thread
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name execute
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name execute
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.ExecuteWorker@43cdebe
+Dec 05, 2013 8:17:12 PM drm.taskworker.WorkerRegistration start
+INFO: Starting join thread
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.ExecuteWorker@16b50694
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name join
+Dec 05, 2013 8:17:12 PM drm.taskworker.WorkerRegistration start
+INFO: Starting archive thread
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.JoinWorker@4bc6c86
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name archive
+Dec 05, 2013 8:17:12 PM drm.taskworker.WorkerRegistration start
+INFO: Starting end thread
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.WebdavArchiveWorker@565c9a2a
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name end
+Dec 05, 2013 8:17:12 PM drm.taskworker.WorkerRegistration start
+INFO: Starting optimus thread
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.EndWorker@4a0b1298
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name optimus
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker <init>
+INFO: Worker started with name optimus
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.OptimusWorker@7150c2b0
+Dec 05, 2013 8:17:12 PM drm.taskworker.App main
+INFO: Starting scheduler
+Dec 05, 2013 8:17:12 PM drm.taskworker.Worker run
+INFO: Started worker drm.taskworker.workers.OptimusWorker@5a12d46c
+Dec 05, 2013 8:17:15 PM org.glassfish.jersey.server.ApplicationHandler initialize
+INFO: Initiating Jersey application, version Jersey: 2.2 2013-08-14 08:51:58...
+Dec 05, 2013 8:17:16 PM org.glassfish.grizzly.http.server.NetworkListener start
+INFO: Started listener bound to [localhost:8123]
+Dec 05, 2013 8:17:16 PM org.glassfish.grizzly.http.server.HttpServer start
+INFO: [HttpServer] Started.
+Dec 05, 2013 8:18:20 PM drm.taskworker.Service addJob
+INFO: Stored job to start at Sat Jan 17 02:04:31 CET 1970
+Dec 05, 2013 8:18:22 PM drm.taskworker.Service startJobs
+INFO: Found a job to start 015152a3-8866-45be-be6d-061ecbce1a87
+Dec 05, 2013 8:18:22 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 0352b952-f2fe-4373-bdb8-d00f7e69a702
+Dec 05, 2013 8:18:22 PM drm.taskworker.Service startJob
+INFO: Started workflow. Added task for optimus
+Dec 05, 2013 8:18:23 PM drm.taskworker.Worker trace
+INFO: [optimus] FETCHED Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=0352b952-f2fe-4373-bdb8-d00f7e69a702, worker=optimus, nparams=0]
+Dec 05, 2013 8:18:23 PM drm.taskworker.workers.OptimusWorker work
+INFO: Executing
+Dec 05, 2013 8:18:23 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to 7e6e9541-e9b3-4b7b-9cee-5a2bc4538554 from 0352b952-f2fe-4373-bdb8-d00f7e69a702 
+Dec 05, 2013 8:18:23 PM drm.taskworker.Worker trace
+INFO: [optimus] DONE Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=0352b952-f2fe-4373-bdb8-d00f7e69a702, worker=optimus, nparams=5]
+Dec 05, 2013 8:18:23 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 7e6e9541-e9b3-4b7b-9cee-5a2bc4538554
+Dec 05, 2013 8:18:23 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 0352b952-f2fe-4373-bdb8-d00f7e69a702
+Dec 05, 2013 8:18:23 PM drm.taskworker.Worker trace
+INFO: [execute] FETCHED Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=7e6e9541-e9b3-4b7b-9cee-5a2bc4538554, worker=execute, nparams=0]
+Dec 05, 2013 8:18:23 PM drm.taskworker.workers.ExecuteWorker work
+INFO: Executing
+Dec 05, 2013 8:18:27 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to 5b14ccd8-773c-4cbe-8fdc-036cc6d44d2e from 7e6e9541-e9b3-4b7b-9cee-5a2bc4538554 
+Dec 05, 2013 8:18:27 PM drm.taskworker.Worker trace
+INFO: [execute] DONE Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=7e6e9541-e9b3-4b7b-9cee-5a2bc4538554, worker=execute, nparams=6]
+Dec 05, 2013 8:18:27 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 5b14ccd8-773c-4cbe-8fdc-036cc6d44d2e
+Dec 05, 2013 8:18:27 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 7e6e9541-e9b3-4b7b-9cee-5a2bc4538554
+Dec 05, 2013 8:18:27 PM drm.taskworker.Worker trace
+INFO: [join] FETCHED Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=5b14ccd8-773c-4cbe-8fdc-036cc6d44d2e, worker=join, nparams=0]
+Dec 05, 2013 8:18:27 PM drm.taskworker.workers.JoinWorker work
+INFO: JOIN TRACE: Get task with join queue 
+Dec 05, 2013 8:18:27 PM drm.taskworker.Worker trace
+INFO: [join] FAILED Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=5b14ccd8-773c-4cbe-8fdc-036cc6d44d2e, worker=join, nparams=1]
+Dec 05, 2013 8:18:27 PM drm.taskworker.Worker run
+WARNING: [join] failed Task [job=015152a3-8866-45be-be6d-061ecbce1a87, id=5b14ccd8-773c-4cbe-8fdc-036cc6d44d2e, worker=join, nparams=1]: EXCEPTION
+java.lang.StringIndexOutOfBoundsException: String index out of range: -36
+	at java.lang.String.substring(String.java:1904)
+	at drm.taskworker.workers.JoinWorker.work(JoinWorker.java:71)
+	at drm.taskworker.Worker.run(Worker.java:120)
+	at java.lang.Thread.run(Thread.java:744)
+Dec 05, 2013 8:21:47 PM drm.taskworker.Service addJob
+INFO: Stored job to start at Sat Jan 17 02:04:31 CET 1970
+Dec 05, 2013 8:21:48 PM drm.taskworker.Service startJobs
+INFO: Found a job to start 69121146-591b-414c-8a6f-c0583318b179
+Dec 05, 2013 8:21:48 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 45cf5f7d-31de-477d-a851-c122a1ae5e77
+Dec 05, 2013 8:21:48 PM drm.taskworker.Service startJob
+INFO: Started workflow. Added task for optimus
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker trace
+INFO: [optimus] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=45cf5f7d-31de-477d-a851-c122a1ae5e77, worker=optimus, nparams=0]
+Dec 05, 2013 8:21:48 PM drm.taskworker.workers.OptimusWorker work
+INFO: Executing
+Dec 05, 2013 8:21:48 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to f23602e9-23cb-4a4c-9ae8-841260bdee7f from 45cf5f7d-31de-477d-a851-c122a1ae5e77 
+Dec 05, 2013 8:21:48 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to ad3e459a-f489-4b4c-b587-cd3870e58bf7 from 45cf5f7d-31de-477d-a851-c122a1ae5e77 
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker trace
+INFO: [optimus] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=45cf5f7d-31de-477d-a851-c122a1ae5e77, worker=optimus, nparams=5]
+Dec 05, 2013 8:21:48 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task f23602e9-23cb-4a4c-9ae8-841260bdee7f
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker trace
+INFO: [optimus] NEW Task [job=69121146-591b-414c-8a6f-c0583318b179, id=f23602e9-23cb-4a4c-9ae8-841260bdee7f, worker=execute, nparams=6]
+Dec 05, 2013 8:21:48 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task ad3e459a-f489-4b4c-b587-cd3870e58bf7
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker trace
+INFO: [optimus] NEW Task [job=69121146-591b-414c-8a6f-c0583318b179, id=ad3e459a-f489-4b4c-b587-cd3870e58bf7, worker=execute, nparams=6]
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker run
+INFO: JOIN TRACE: Added task with join id 9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:48 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 45cf5f7d-31de-477d-a851-c122a1ae5e77
+Dec 05, 2013 8:21:48 PM drm.taskworker.Worker trace
+INFO: [execute] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=ad3e459a-f489-4b4c-b587-cd3870e58bf7, worker=execute, nparams=0]
+Dec 05, 2013 8:21:48 PM drm.taskworker.workers.ExecuteWorker work
+INFO: Executing
+Dec 05, 2013 8:21:51 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to 0f7cae1d-64d7-4425-b754-27ceaf379c55 from ad3e459a-f489-4b4c-b587-cd3870e58bf7 |9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:51 PM drm.taskworker.Worker trace
+INFO: [execute] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=f23602e9-23cb-4a4c-9ae8-841260bdee7f, worker=execute, nparams=0]
+Dec 05, 2013 8:21:51 PM drm.taskworker.Worker trace
+INFO: [execute] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=ad3e459a-f489-4b4c-b587-cd3870e58bf7, worker=execute, nparams=6]
+Dec 05, 2013 8:21:51 PM drm.taskworker.workers.ExecuteWorker work
+INFO: Executing
+Dec 05, 2013 8:21:51 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 0f7cae1d-64d7-4425-b754-27ceaf379c55
+Dec 05, 2013 8:21:51 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task ad3e459a-f489-4b4c-b587-cd3870e58bf7
+Dec 05, 2013 8:21:52 PM drm.taskworker.Worker trace
+INFO: [join] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=0f7cae1d-64d7-4425-b754-27ceaf379c55, worker=join, nparams=0]
+Dec 05, 2013 8:21:52 PM drm.taskworker.workers.JoinWorker work
+INFO: JOIN TRACE: Get task with join queue |9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:52 PM drm.taskworker.Worker trace
+INFO: [join] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=0f7cae1d-64d7-4425-b754-27ceaf379c55, worker=join, nparams=1]
+Dec 05, 2013 8:21:52 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 0f7cae1d-64d7-4425-b754-27ceaf379c55
+Dec 05, 2013 8:21:52 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to b8cf74b5-4a0c-48fb-81ef-035ae98d2112 from f23602e9-23cb-4a4c-9ae8-841260bdee7f |9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:52 PM drm.taskworker.Worker trace
+INFO: [execute] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=f23602e9-23cb-4a4c-9ae8-841260bdee7f, worker=execute, nparams=6]
+Dec 05, 2013 8:21:52 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task b8cf74b5-4a0c-48fb-81ef-035ae98d2112
+Dec 05, 2013 8:21:52 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task f23602e9-23cb-4a4c-9ae8-841260bdee7f
+Dec 05, 2013 8:21:52 PM drm.taskworker.Worker trace
+INFO: [join] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=b8cf74b5-4a0c-48fb-81ef-035ae98d2112, worker=join, nparams=0]
+Dec 05, 2013 8:21:52 PM drm.taskworker.workers.JoinWorker work
+INFO: JOIN TRACE: Get task with join queue |9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:52 PM drm.taskworker.workers.JoinWorker work
+INFO: Joining the results of 2 parents
+Dec 05, 2013 8:21:53 PM drm.taskworker.Worker trace
+INFO: [join] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=b8cf74b5-4a0c-48fb-81ef-035ae98d2112, worker=join, nparams=1]
+Dec 05, 2013 8:21:53 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:53 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task b8cf74b5-4a0c-48fb-81ef-035ae98d2112
+Dec 05, 2013 8:21:53 PM drm.taskworker.Worker trace
+INFO: [optimus] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=9fc8d8ce-98eb-4656-ab1c-8d74652198cf, worker=optimus, nparams=0]
+Dec 05, 2013 8:21:53 PM drm.taskworker.workers.OptimusWorker work
+INFO: Executing
+Dec 05, 2013 8:21:53 PM drm.taskworker.workers.OptimusWorker work
+INFO: Got result: 14
+Dec 05, 2013 8:21:53 PM drm.taskworker.workers.OptimusWorker work
+INFO: Got result: 12
+Dec 05, 2013 8:21:53 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to 978d900a-2e6a-433e-a3a4-f8fb6e21d3ad from 9fc8d8ce-98eb-4656-ab1c-8d74652198cf 
+Dec 05, 2013 8:21:53 PM drm.taskworker.Worker trace
+INFO: [optimus] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=9fc8d8ce-98eb-4656-ab1c-8d74652198cf, worker=optimus, nparams=7]
+Dec 05, 2013 8:21:53 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 978d900a-2e6a-433e-a3a4-f8fb6e21d3ad
+Dec 05, 2013 8:21:53 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 9fc8d8ce-98eb-4656-ab1c-8d74652198cf
+Dec 05, 2013 8:21:53 PM drm.taskworker.Worker trace
+INFO: [execute] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=978d900a-2e6a-433e-a3a4-f8fb6e21d3ad, worker=execute, nparams=0]
+Dec 05, 2013 8:21:53 PM drm.taskworker.workers.ExecuteWorker work
+INFO: Executing
+Dec 05, 2013 8:21:56 PM drm.taskworker.tasks.Task addParent
+INFO: Added JOIN_PARAM to 27c43a98-b46c-4684-a023-ae2a6ed64f59 from 978d900a-2e6a-433e-a3a4-f8fb6e21d3ad 
+Dec 05, 2013 8:21:56 PM drm.taskworker.Worker trace
+INFO: [execute] DONE Task [job=69121146-591b-414c-8a6f-c0583318b179, id=978d900a-2e6a-433e-a3a4-f8fb6e21d3ad, worker=execute, nparams=6]
+Dec 05, 2013 8:21:56 PM drm.taskworker.queue.Queue addTask
+INFO: Inserting task 27c43a98-b46c-4684-a023-ae2a6ed64f59
+Dec 05, 2013 8:21:56 PM drm.taskworker.queue.Queue finishTask
+INFO: Removing task 978d900a-2e6a-433e-a3a4-f8fb6e21d3ad
+Dec 05, 2013 8:21:57 PM drm.taskworker.Worker trace
+INFO: [join] FETCHED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=27c43a98-b46c-4684-a023-ae2a6ed64f59, worker=join, nparams=0]
+Dec 05, 2013 8:21:57 PM drm.taskworker.workers.JoinWorker work
+INFO: JOIN TRACE: Get task with join queue 
+Dec 05, 2013 8:21:57 PM drm.taskworker.Worker trace
+INFO: [join] FAILED Task [job=69121146-591b-414c-8a6f-c0583318b179, id=27c43a98-b46c-4684-a023-ae2a6ed64f59, worker=join, nparams=1]
+Dec 05, 2013 8:21:57 PM drm.taskworker.Worker run
+WARNING: [join] failed Task [job=69121146-591b-414c-8a6f-c0583318b179, id=27c43a98-b46c-4684-a023-ae2a6ed64f59, worker=join, nparams=1]: EXCEPTION
+java.lang.StringIndexOutOfBoundsException: String index out of range: -36
+	at java.lang.String.substring(String.java:1904)
+	at drm.taskworker.workers.JoinWorker.work(JoinWorker.java:71)
+	at drm.taskworker.Worker.run(Worker.java:120)
+	at java.lang.Thread.run(Thread.java:744)
