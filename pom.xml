@@ -77,11 +77,11 @@
         <module>end</module>
         <module>execute</module>
         <module>optimus</module>
+        <module>geo</module>
 
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
         <module>workflow-noesis</module>
-        <module>geo</module>
-        <module>luciad</module>
+        <module>workflow-luciad</module>
 	</modules>
 </project>
