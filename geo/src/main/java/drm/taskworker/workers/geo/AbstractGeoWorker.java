@@ -1,6 +1,10 @@
 package drm.taskworker.workers.geo;
 
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import drm.taskworker.Worker;
 import drm.taskworker.tasks.ParameterFoundException;
@@ -15,6 +19,12 @@ public abstract class AbstractGeoWorker extends Worker {
 	public void attachImage(Task t, BufferedImage img, Region reg){
 		t.addParam("img", new SerialisableImageContainer(img));
 		t.addParam("region", reg);
+	}
+	
+	public void attachBinaryImage(Task t,String name, BufferedImage img) throws IOException{
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(img, "png", baos);
+		t.addParam(name, baos.toByteArray());
 	}
 
 	public BufferedImage detachImage(Task t) throws ParameterFoundException{

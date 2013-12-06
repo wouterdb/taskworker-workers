@@ -1,0 +1,35 @@
+---
+workers:
+    - {name: split, class: drm.taskworker.workers.geo.SplitWorker, threads: 1, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: archive, class: drm.taskworker.workers.WebdavArchiveWorker, threads: 2, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: fuse, class: drm.taskworker.workers.geo.FusionWorker, threads: 2, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: join, class: drm.taskworker.workers.JoinWorker, threads: 2, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: fetch, class: drm.taskworker.workers.geo.ImageFetchWorker, threads: 2, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+    - {name: end, class: drm.taskworker.workers.EndWorker, threads: 1, code: "target/luciad-0.4.0-SNAPSHOT-jar-with-dependencies.jar"}
+   
+workflows:
+    luciad:
+        steps:
+            join: {next: fuse}
+            archive: {next: end}
+        start: split
+        end: end
+        options:
+            archive.url: http://172.16.4.12:8080/repository/default/maps
+            archive.username: admin
+            archive.password: admin
+            archive.extension: png
+            archive.filetype: image/png
+            fetch.url:  http://172.16.4.12:8080/repository/default/maps/b.tile.openstreetmap.org/16
+            fetch.username: admin
+            fetch.password: admin
+
+scheduler:
+    class: drm.taskworker.schedule.FairShare
+    workers:
+        - split
+        - archive
+        - fuse
+        - join
+        - fetch
+        - end

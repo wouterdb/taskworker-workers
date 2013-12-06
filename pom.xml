@@ -82,5 +82,6 @@
         <module>workflow-upnxt</module>
         <module>workflow-noesis</module>
         <module>geo</module>
+        <module>luciad</module>
 	</modules>
 </project>
