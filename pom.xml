@@ -79,5 +79,6 @@
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
         <module>geo</module>
+        <module>luciad</module>
 	</modules>
 </project>
