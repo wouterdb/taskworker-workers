@@ -75,10 +75,11 @@
         <module>template</module>
         <module>join</module>
         <module>end</module>
-
+		<module>geo</module>
+        
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
-        <module>geo</module>
-        <module>luciad</module>
+        <module>workflow-luciad</module>
+        <module>localworker</module>
 	</modules>
 </project>

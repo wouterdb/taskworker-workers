@@ -14,4 +14,4 @@
     limitations under the License.
 
     Administrative Contact: dnet-project-office@cs.kuleuven.be
-    Technical Contact: bart.vanbrabant@cs.kuleuven.be
+    Technical Contact: wouter.deborger@cs.kuleuven.be

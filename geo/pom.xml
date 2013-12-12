@@ -31,6 +31,11 @@
 		  <artifactId>sardine</artifactId>
 		  <version>5.0.1</version>
 		</dependency>
+		<dependency>
+			<groupId>taskworker</groupId>
+			<artifactId>localworker</artifactId>
+			<version>0.4.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<repositories>

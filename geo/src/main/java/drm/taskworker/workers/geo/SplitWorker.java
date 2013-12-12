@@ -4,8 +4,11 @@ import drm.taskworker.tasks.ParameterFoundException;
 import drm.taskworker.tasks.Task;
 import drm.taskworker.tasks.TaskResult;
 import drm.taskworker.tasks.TaskResult.Result;
+import drm.taskworker.workers.WorkerWorker;
 
 public class SplitWorker extends AbstractGeoWorker {
+	
+	WorkerWorker internal = new WorkerWorker();
 
 	public SplitWorker(String name) {
 		super(name);
@@ -28,12 +31,17 @@ public class SplitWorker extends AbstractGeoWorker {
 			}
 
 			tr.setResult(Result.SUCCESS);
+			
+			if(r.getLowerRight().getX()-r.getUpperleft().getX()==4)
+				return internal.work(tr);
 
 		} catch (ParameterFoundException e) {
 			tr.setException(e);
 			tr.setResult(Result.EXCEPTION);
 			tr.fail();
 		}
+		
+		
 		return tr;
 	}
 
