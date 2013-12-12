@@ -57,7 +57,8 @@ public class CSVtoTaskWorker extends Worker {
 			CSVReader parser = new CSVReader(new StringReader(csv_data), ';');
 			List<String[]> rows = parser.readAll();
 			String[] headers = rows.get(0);
-			
+
+			logger.info(String.format("Parsed %d records in CSV", rows.size() - 1));
 			for (int i = 1; i < rows.size(); i++) {
 				String[] row = rows.get(i);
 				Task newTask = new Task(task, this.getNextWorker(task.getJobId()));

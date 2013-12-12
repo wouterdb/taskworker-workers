@@ -75,11 +75,15 @@
         <module>template</module>
         <module>join</module>
         <module>end</module>
-		<module>geo</module>
+        <module>execute</module>
+        <module>optimus</module>
+        <module>geo</module>
+        <module>localworker</module>
         
         <!-- demo workflows -->
         <module>workflow-upnxt</module>
+        <module>workflow-noesis</module>
         <module>workflow-luciad</module>
-        <module>localworker</module>
+        
 	</modules>
 </project>
